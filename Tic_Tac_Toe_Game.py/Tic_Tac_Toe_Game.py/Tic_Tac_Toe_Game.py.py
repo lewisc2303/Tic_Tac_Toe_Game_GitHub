@@ -3,9 +3,11 @@ import os
 import random 
 import time
 
-#Creation steps
+#Instructions
 #Create game board
 #User input
+#No double space
+#Winning functionality
 
 #Initialise board
 board = [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "]
@@ -27,7 +29,7 @@ def draw_board():
 while True:
     os.system('cls')
     draw_board()
-
+    #user input of cross at desired gridspace
     user_input = input("Please select which grid space you would like to place the x?  ")
     user_input = int(user_input)
     board[user_input]="x"
@@ -37,4 +39,17 @@ while True:
         board[user_input]= "x"
     else: 
         print("This space is already taken, please choose another available space")
-    time.sleep(1)
+        time.sleep(1)
+
+    if (board[1]== "x"and board[2] == "x" and board[3] == "x") or \
+     (board[1]== "x"and board[2] == "x" and board[3] == "x") or \
+     (board[1]== "x"and board[2] == "x" and board[3] == "x") or \
+     (board[1]== "x"and board[2] == "x" and board[3] == "x") or \
+     (board[1]== "x"and board[2] == "x" and board[3] == "x") or \
+     (board[1]== "x"and board[2] == "x" and board[3] == "x") or \
+     (board[1]== "x"and board[2] == "x" and board[3] == "x") or \
+     (board[1]== "x"and board[2] == "x" and board[3] == "x"):   
+        os.system("cls")
+        draw_board()
+        print("Congratulations you are the winner!")
+        break
