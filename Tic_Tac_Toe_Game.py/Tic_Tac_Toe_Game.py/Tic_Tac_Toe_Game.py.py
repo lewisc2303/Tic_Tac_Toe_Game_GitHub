@@ -3,10 +3,9 @@ import os
 import random 
 import time
 
-#Creation Steps
+#Creation steps
 #Create game board
 #User input
-#No double space
 #Winning capability
 #Computer as input
 #Tie scenario
@@ -59,6 +58,21 @@ while True:
 
     os.system('cls')
     draw_board()
+    
+    #No Tie Scenario
+    #Board is full doesent work. False is flagged even when grid is full?
+    board_full = True
+    for index in range(1, 10):
+        if board[index] == " ":
+            board_full = False
+            break
+    #Tie scenario        
+    if board_full == True:
+        os.system("cls")
+        draw_board()
+        print("It's a Tie!")
+        break
+
 #computer input of 'circle' at desired gridspace
     computer_input = input("Please select which grid space you would like to place the o?  ")
     computer_input = int(computer_input)
