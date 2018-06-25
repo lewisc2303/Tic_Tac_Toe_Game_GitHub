@@ -11,10 +11,12 @@ import time
 #Winning capability
 #Computer as input
 #Tie scenario
-#Computer AI
+#AI player
+#Play again function
 
 #Initialise board (first space empty in order to allow for the is_board_full function to work)
 board = ["", " ", " ", " ", " ", " ", " ", " ", " ", " "]
+answer = "no"
 
 #Drawing of the board to contain the board list
 def draw_board():
@@ -53,29 +55,28 @@ def is_board_full(board):
 
 #computer game strategy
 def get_computer_move(board, player):
-    if board[5] == " ":
-        return 5
-    else:
-        while True:
-            move = random.randint(1, 9)
-            if board[move] == " ":
-                return move
+    if answer == "no":
+        if board[5] == " ":
+            return 5
+        else:
+            while True:
+                move = random.randint(1, 9)
+                if board[move] == " ":
+                    return move
 
 #Play again function
 def play_again():
-    while True:
+    while True: 
         answer=input("Would you like to play again? yes or no ")
-        if answer == "yes":
-            os.system('cls') 
+        os.system('cls') 
+        draw_board()
+        if answer == "yes":   
             board[0:9] = ["", " ", " ", " ", " ", " ", " ", " ", " ", " "] 
-            draw_board()
+            answer="yes"
             break
 
 #Game loop
 while True:
-   
-    #refresh answer to blank
-    answer = " "   
 
     #Refresh the board
     os.system('cls')
@@ -104,30 +105,21 @@ while True:
         draw_board()
         print("Congratulations you are the winner!")
         play_again()
-    os.system('cls')
-    draw_board()
-    
+
     #Tie scenario        
-    if is_board_full(board) == True:
+    if is_board_full(board):
         os.system("cls")
         draw_board()
         print("It's a Tie!")
         play_again()
 
-    #computer input of 'circle' at desired gridspace and skip if play again function is activated
-    if  answer == "yes":
-        break
-    else:
-        computer_input = get_computer_move(board, "o")
+    #Computer input of 'circle' at desired gridspace    
+    computer_input = get_computer_move(board, "o") 
 
-    #No double space usage
     if board[computer_input]== " ":
         board[computer_input]= "o"
-    else: 
-        print("This space is already taken, please choose another available space")
-        time.sleep(1)
-
-    #check o win
+    
+    #Check o win
     if is_winner(board,"o"):   
         os.system("cls")
         draw_board()
@@ -135,8 +127,18 @@ while True:
         play_again()
 
     #Tie scenario        
-    if is_board_full(board) == True:
+    if is_board_full(board):
         os.system("cls")
         draw_board()
         print("It's a Tie!")
         play_again()
+    
+    answer == "no"  
+
+     #improvement notes
+        #make stuff more flexible
+            #make board into function so 4x4 of 5x5 grid can be done
+        #clean up code further
+            #userinput +1 instead of leaving the space
+            #create repeating function for print board to save lines
+            #edit code so that while loop skips a turn when play again function is activated
