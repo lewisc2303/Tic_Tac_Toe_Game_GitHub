@@ -3,15 +3,18 @@ import os
 import random 
 import time
 
-#Creation steps
+#Creation Steps
 #Create game board
 #User input
+#No double space
 #Winning capability
 #Computer as input
+#Tie scenario
 
 #Initialise board
-board = [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "]
+board = ["", " ", " ", " ", " ", " ", " ", " ", " ", " "]
 
+#Draw the board to contatain the above list
 def draw_board():
     print("   |   |  ")
     print(" " + board[1] + " | " + board[2] + " | " + board[3] + " ")
@@ -33,7 +36,6 @@ while True:
 #user input of 'cross' at desired gridspace
     user_input = input("Please select which grid space you would like to place the x?  ")
     user_input = int(user_input)
-    #board[user_input]="x" was an issue that it always showed this message with each run. remove as it is in following if statement
 
     #Not enable space to be taken twice
     if board[user_input]== " ":
@@ -60,7 +62,6 @@ while True:
 #computer input of 'circle' at desired gridspace
     computer_input = input("Please select which grid space you would like to place the o?  ")
     computer_input = int(computer_input)
-    #board[user_input]="x" was an issue that it always showed this message with each run. remove as it is in following if statement
 
     #Not enable space to be taken twice
     if board[computer_input]== " ":
@@ -79,5 +80,18 @@ while True:
      (board[3]== "o"and board[5] == "o" and board[7] == "o"):   
         os.system("cls")
         draw_board()
-        print("The computer won!")
+        print("The computer won. The machines are taking over...")
+        break
+    #No Tie Scenario
+    #Board is full doesent work. False is flagged even when grid is full?
+    board_full = True
+    for index in range(1, 10):
+        if board[index] == " ":
+            board_full = False
+            break
+    #Tie scenario        
+    if board_full == True:
+        os.system("cls")
+        draw_board()
+        print("It's a Tie!")
         break
