@@ -1,16 +1,18 @@
 #Tic Tac Toe game against the computer for HolidayCheck
+#import
 import os
 import random 
 import time
 
-#Instructions
+#Creation steps
 #Create game board
 #User input
 #Winning capability
 #Computer as input
 #Tie scenario
+#Computer AI
 
-#Initialise board
+#Initialise board (first space empty in order to allow for the is_board_full function to work)
 board = ["", " ", " ", " ", " ", " ", " ", " ", " ", " "]
 
 #Drawing of the board to contain the board list
@@ -48,6 +50,16 @@ def is_board_full(board):
     else: 
         return True
 
+#computer game strategy
+def get_computer_move(board, player):
+    if board[5] == " ":
+        return 5
+    else:
+        while True:
+            move = random.randint(1, 9)
+            if board[move] == " ":
+                return move
+                
 #Game loop
 while True:
     os.system('cls')
@@ -63,13 +75,13 @@ while True:
     else: 
         print("This space is already taken, please choose another available space")
         time.sleep(1)
+
     #Check x win
     if is_winner(board, "x"):   
         os.system("cls")
         draw_board()
         print("Congratulations you are the winner!")
         break
-
     os.system('cls')
     draw_board()
     
@@ -81,8 +93,7 @@ while True:
         break
 
     #computer input of 'circle' at desired gridspace
-    computer_input = input("Please select which grid space you would like to place the o?  ")
-    computer_input = int(computer_input)
+    computer_input = get_computer_move(board, "o")
 
     #No double space usage
     if board[computer_input]== " ":
