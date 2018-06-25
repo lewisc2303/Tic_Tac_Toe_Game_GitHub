@@ -1,4 +1,5 @@
 #Tic Tac Toe game against the computer for HolidayCheck
+
 #import
 import os
 import random 
@@ -59,29 +60,50 @@ def get_computer_move(board, player):
             move = random.randint(1, 9)
             if board[move] == " ":
                 return move
-                
+
+#Play again function
+def play_again():
+    while True:
+        answer=input("Would you like to play again? yes or no ")
+        if answer == "yes":
+            os.system('cls') 
+            board[0:9] = ["", " ", " ", " ", " ", " ", " ", " ", " ", " "] 
+            draw_board()
+            break
+
 #Game loop
 while True:
+   
+    #refresh answer to blank
+    answer = " "   
+
+    #Refresh the board
     os.system('cls')
     draw_board()
     
+    #Loop to account for skipping player go when space is taken
+    while True:
+  
     #user input of 'cross' at desired gridspace
-    user_input = input("Please select which grid space you would like to place the x?  ")
-    user_input = int(user_input)
+        user_input = input("Please select which grid space you would like to place the x?  ")
+        user_input = int(user_input)
 
     #No double space useage
-    if board[user_input]== " ":
-        board[user_input]= "x"
-    else: 
-        print("This space is already taken, please choose another available space")
-        time.sleep(1)
+        if board[user_input]== " ":
+            board[user_input]= "x"
+            break 
+        else: 
+            print("This space is already taken, please choose another available space")
+            time.sleep(1)
+            os.system('cls')
+            draw_board()
 
     #Check x win
     if is_winner(board, "x"):   
         os.system("cls")
         draw_board()
         print("Congratulations you are the winner!")
-        break
+        play_again()
     os.system('cls')
     draw_board()
     
@@ -90,10 +112,13 @@ while True:
         os.system("cls")
         draw_board()
         print("It's a Tie!")
-        break
+        play_again()
 
-    #computer input of 'circle' at desired gridspace
-    computer_input = get_computer_move(board, "o")
+    #computer input of 'circle' at desired gridspace and skip if play again function is activated
+    if  answer == "yes":
+        break
+    else:
+        computer_input = get_computer_move(board, "o")
 
     #No double space usage
     if board[computer_input]== " ":
@@ -107,11 +132,11 @@ while True:
         os.system("cls")
         draw_board()
         print("The computer won. The machines are taking over...")
-        break
+        play_again()
 
     #Tie scenario        
     if is_board_full(board) == True:
         os.system("cls")
         draw_board()
         print("It's a Tie!")
-        break
+        play_again()
