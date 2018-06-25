@@ -25,8 +25,16 @@ def draw_board():
 
 #Inputing number which correlates to board and represented by an X
 while True:
-    os.system("clear")
+    os.system('cls')
     draw_board()
-    user_input = input("Please select which grid space you would like to place the x")
+
+    user_input = input("Please select which grid space you would like to place the x?  ")
     user_input = int(user_input)
     board[user_input]="x"
+
+    #Not enable space to be taken twice
+    if board[user_input]== " ":
+        board[user_input]= "x"
+    else: 
+        print("This space is already taken, please choose another available space")
+    time.sleep(1)
