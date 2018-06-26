@@ -59,7 +59,10 @@ def is_board_full(board):
     if " " in board:
         return False
     else: 
-        return True
+        os.system("cls")
+        draw_board()
+        print("It's a Tie!")
+        play_again()
 
 #computer game strategy
 def get_computer_move(board, player):
@@ -116,11 +119,7 @@ def play_game():
         is_winner(board, "x")
 
         #Tie scenario        
-        if is_board_full(board):
-            os.system("cls")
-            draw_board()
-            print("It's a Tie!")
-            play_again()
+        is_board_full(board)
 
         #Computer input of 'circle' at desired gridspace    
         computer_input = get_computer_move(board, "o") 
@@ -130,11 +129,7 @@ def play_game():
         is_winner(board,"o")
 
         #Tie scenario        
-        if is_board_full(board):
-            os.system("cls")
-            draw_board()
-            print("It's a Tie!")
-            play_again()
+        is_board_full(board)
 
 #Play game execution
 play_game()
