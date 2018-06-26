@@ -44,6 +44,14 @@ def is_winner(board, player):
      (board[1]== player and board[5] == player  and board[9] == player ) or \
      (board[3]== player and board[5] == player  and board[7] == player ):   
         return True
+        os.system("cls")
+        draw_board()
+        if player == "x":
+            print("Congratulations you are the winner!")
+            play_again()
+        else:
+            print("The computer won. The machines are taking over...")
+            play_again()
     else:
         return False
 
@@ -105,12 +113,8 @@ def play_game():
         #User input
         get_user_input(board, "x")
 
-        #Check x win
-        if is_winner(board, "x"):   
-            os.system("cls")
-            draw_board()
-            print("Congratulations you are the winner!")
-            play_again()
+        #Check x win 
+        is_winner(board, "x")
 
         #Tie scenario        
         if is_board_full(board):
@@ -124,11 +128,7 @@ def play_game():
         board[computer_input]= "o"
     
         #Check o win
-        if is_winner(board,"o"):   
-            os.system("cls")
-            draw_board()
-            print("The computer won. The machines are taking over...")
-            play_again()
+        is_winner(board,"o")
 
         #Tie scenario        
         if is_board_full(board):
