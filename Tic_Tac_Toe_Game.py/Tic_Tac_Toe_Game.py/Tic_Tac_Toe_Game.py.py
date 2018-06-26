@@ -14,6 +14,7 @@ import time
 #AI player
 #Play again function
 #create game loop function
+#create user_input function
 
 #Initialise board (first space empty in order to allow for the is_board_full function to work)
 board = ["", " ", " ", " ", " ", " ", " ", " ", " ", " "]
@@ -63,6 +64,25 @@ def get_computer_move(board, player):
            if board[move] == " ":
                 return move
 
+def get_user_input(board, player):
+        
+    #Loop to account for skipping player go when space is taken
+    while True:
+  
+    #user input of 'cross' at desired gridspace
+        user_input = input("Please select which grid space you would like to place the x?  ")
+        user_input = int(user_input)
+
+    #No double space useage
+        if board[user_input]== " ":
+            board[user_input]= player
+            break 
+        else: 
+            print("This space is already taken, please choose another available space")
+            time.sleep(1)
+            os.system('cls')
+            draw_board()
+
 #Play again function
 def play_again():
     while True: 
@@ -82,22 +102,8 @@ def play_game():
         os.system('cls')
         draw_board()
     
-        #Loop to account for skipping player go when space is taken
-        while True:
-  
-        #user input of 'cross' at desired gridspace
-            user_input = input("Please select which grid space you would like to place the x?  ")
-            user_input = int(user_input)
-
-        #No double space useage
-            if board[user_input]== " ":
-                board[user_input]= "x"
-                break 
-            else: 
-                print("This space is already taken, please choose another available space")
-                time.sleep(1)
-                os.system('cls')
-                draw_board()
+        #User input
+        get_user_input(board, "x")
 
         #Check x win
         if is_winner(board, "x"):   
@@ -115,9 +121,7 @@ def play_game():
 
         #Computer input of 'circle' at desired gridspace    
         computer_input = get_computer_move(board, "o") 
-
-        if board[computer_input]== " ":
-            board[computer_input]= "o"
+        board[computer_input]= "o"
     
         #Check o win
         if is_winner(board,"o"):   
