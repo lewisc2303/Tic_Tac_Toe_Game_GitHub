@@ -131,7 +131,6 @@ def play_game():
         #Tie scenario        
         is_board_full(board)
 
-
 #Play game execution
 play_game()
 
