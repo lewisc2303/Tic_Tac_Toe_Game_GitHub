@@ -43,7 +43,6 @@ def is_winner(board, player):
      (board[3]== player and board[6] == player  and board[9] == player ) or \
      (board[1]== player and board[5] == player  and board[9] == player ) or \
      (board[3]== player and board[5] == player  and board[7] == player ):   
-        return True
         os.system("cls")
         draw_board()
         if player == "x":
