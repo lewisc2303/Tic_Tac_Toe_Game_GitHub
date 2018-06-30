@@ -19,6 +19,14 @@ import time
 #Initialise board (first space empty in order to allow for the is_board_full function to work)
 board = ["", " ", " ", " ", " ", " ", " ", " ", " ", " "]
 
+def intro_screen():
+    while True:
+        os.system('cls') 
+        print("Welcome to Tic Tac Toe")
+        intro_answer = input("Press any key to continue"  )
+        play_game()
+        break
+
 #Drawing of the board to contain the board list
 def draw_board():
     print("   |   |  ")
@@ -42,7 +50,7 @@ def is_winner(board, player):
      (board[2]== player and board[5] == player  and board[8] == player ) or \
      (board[3]== player and board[6] == player  and board[9] == player ) or \
      (board[1]== player and board[5] == player  and board[9] == player ) or \
-     (board[3]== player and board[5] == player  and board[7] == player ):   
+     (board[3]== player and board[5] == player  and board[7] == player ):  
         os.system("cls")
         draw_board()
         if player == "x":
@@ -67,12 +75,13 @@ def is_board_full(board):
 #computer game strategy
 def get_computer_move(board, player):
     if board[5] == " ":
-        return 5
+       board[5] = player
     else:
         while True:
            move = random.randint(1, 9)
            if board[move] == " ":
-                return move
+            board[move] = player
+            break    
 
 def get_user_input(board, player):
         
@@ -103,6 +112,9 @@ def play_again():
             board[0:9] = ["", " ", " ", " ", " ", " ", " ", " ", " ", " "] 
             play_game()
             break
+        elif answer == "no":
+            intro_screen()
+            break
         
 #Game loop
 def play_game():
@@ -122,8 +134,7 @@ def play_game():
         is_board_full(board)
 
         #Computer input of 'circle' at desired gridspace    
-        computer_input = get_computer_move(board, "o") 
-        board[computer_input]= "o"
+        get_computer_move(board, "o") 
     
         #Check o win
         is_winner(board,"o")
@@ -132,7 +143,7 @@ def play_game():
         is_board_full(board)
 
 #Play game execution
-play_game()
+intro_screen()
 
      #improvement notes
         #make stuff more flexible
