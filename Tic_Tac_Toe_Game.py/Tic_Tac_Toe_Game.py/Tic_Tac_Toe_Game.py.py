@@ -113,6 +113,7 @@ def play_again():
             play_game()
             break
         elif answer == "no":
+            board[0:9] = ["", " ", " ", " ", " ", " ", " ", " ", " ", " "] 
             intro_screen()
             break
         
