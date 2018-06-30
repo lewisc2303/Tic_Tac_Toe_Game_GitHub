@@ -116,6 +116,8 @@ def play_again():
             board[0:9] = ["", " ", " ", " ", " ", " ", " ", " ", " ", " "] 
             intro_screen()
             break
+        else:
+            print("Invalid entry. Enter 'yes' or 'no'")
         
 #Game loop
 def play_game():
