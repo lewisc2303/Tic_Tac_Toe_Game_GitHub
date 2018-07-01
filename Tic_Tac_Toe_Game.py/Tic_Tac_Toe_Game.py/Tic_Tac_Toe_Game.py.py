@@ -4,6 +4,7 @@
 import os
 import random 
 import time
+import sys
 
 #Creation steps
 #Create game board
@@ -15,18 +16,27 @@ import time
 #Play again function
 #create game loop function
 #create user_input function
+#Simplify functions
+#Add O.S statement
 
 #Initialise board
 board = [" ", " ", " ", " ", " ", " ", " ", " ", " "]
 
+#Initialise winner function category variables
 row = 1
 column = 3
 left_diag = 4
 right_diag = 2
 
+def clear_screen():
+    if sys.platform == "win32":
+        os.system('cls')
+    else:
+        os.system('clear')
+
 def intro_screen():
     while True:
-        os.system('cls') 
+        clear_screen() 
         print("Welcome to Tic Tac Toe")
         intro_answer = input("Press any key to continue"  )
         play_game()
@@ -47,25 +57,25 @@ def draw_board():
     print("   |   |  ")
 
 def win_check(board, start_index, category, player):
-    #for x in range(start_index, len(board))
     if board[start_index] == player and board[start_index + category] == player and board[start_index + (category*2)] == player:
         return True 
 
-def check_rows():
-    if win_check(board, 0, row, "x") or win_check(board, 3, row, "x") or win_check(board, 6, row, "x"):
+def check_rows(player):
+    if win_check(board, 0, row, player) or win_check(board, 3, row, player) or win_check(board, 6, row, player):
         return True
 
-def check_column():
-    if win_check(board, 0, column, "x") or win_check(board, 1, column, "x") or win_check(board, 2, column, "x"):
+def check_column(player):
+    if win_check(board, 0, column, player) or win_check(board, 1, column, player) or win_check(board, 2, column, player):
         return True
 
-def check_diagonal():
-    if win_check(board, 0, left_diag, "x") or win_check(board, 2, right_diag, "x"):
+def check_diagonal(player):
+    if win_check(board, 0, left_diag, player) or win_check(board, 2, right_diag, player):
         return True
 
-def Winner(player):
-    if (check_rows() == True) or (check_column() == True) or (check_diagonal() == True):
-        os.system("cls")
+#Function to determine winner
+def is_winner(player):
+    if (check_rows(player) == True) or (check_column(player) == True) or (check_diagonal(player) == True):
+        clear_screen()
         draw_board()
         if player == "x":
             print("Congratulations you are the winner!")
@@ -76,33 +86,12 @@ def Winner(player):
     else:
         return False
         
-#Function to determine winner
-def is_winner(board, player):
-    if (board[0]== player and board[1] == player  and board[2] == player ) or \
-     (board[3]== player and board[4] == player  and board[5] == player ) or \
-     (board[6]== player and board[7] == player  and board[8] == player ) or \
-     (board[0]== player and board[3] == player  and board[6] == player ) or \
-     (board[1]== player and board[4] == player  and board[7] == player ) or \
-     (board[2]== player and board[5] == player  and board[8] == player ) or \
-     (board[0]== player and board[4] == player  and board[8] == player ) or \
-     (board[2]== player and board[4] == player  and board[6] == player ):  
-        os.system("cls")
-        draw_board()
-        if player == "x":
-            print("Congratulations you are the winner!")
-            play_again()
-        else:
-            print("The computer won. The machines are taking over...")
-            play_again()
-    else:
-        return False
-
 #Function to determine Tie
 def is_board_full(board):
     if " " in board:
         return False
     else: 
-        os.system("cls")
+        clear_screen()
         draw_board()
         print("It's a Tie!")
         play_again()
@@ -119,7 +108,7 @@ def get_computer_move(board, player):
             break    
 
 def get_user_input(board, player):
-        
+
     #Loop to account for skipping player go when space is taken
     while True:
   
@@ -134,16 +123,16 @@ def get_user_input(board, player):
         else: 
             print("This space is already taken, please choose another available space")
             time.sleep(1)
-            os.system('cls')
+            clear_screen()
             draw_board()
 
 #Play again function
 def play_again():
     while True: 
         answer=input("Would you like to play again? yes or no ")
-        os.system('cls') 
+        clear_screen()
         draw_board()
-        if answer == "yes":   
+        if answer == "yes":
             board[0:8] = [" ", " ", " ", " ", " ", " ", " ", " ", " "] 
             play_game()
             break
@@ -152,21 +141,21 @@ def play_again():
             intro_screen()
             break
         else:
-            print("Invalid entry. Enter 'yes' or 'no'")
+            print("Invalid entry. Please enter 'yes' or 'no'")
         
 #Game loop
 def play_game():
     while True:
 
         #Refresh the board
-        os.system('cls')
+        clear_screen()
         draw_board()
     
         #User input
         get_user_input(board, "x")
 
         #Check x win 
-        Winner("x")
+        is_winner("x")
 
         #Tie scenario        
         is_board_full(board)
@@ -175,7 +164,7 @@ def play_game():
         get_computer_move(board, "o") 
     
         #Check o win
-        is_winner(board,"o")
+        is_winner("o")
 
         #Tie scenario        
         is_board_full(board)
