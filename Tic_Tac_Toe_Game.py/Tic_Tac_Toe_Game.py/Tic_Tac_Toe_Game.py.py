@@ -110,17 +110,23 @@ def get_computer_move(board, player):
 
 def get_user_input(board, player):
 
-    #Loop to account for skipping player go when space is taken
     while True:
   
-    #user input of 'cross' at desired gridspace
+        #invalid entry statements
         while True:
-            user_input = int(input("Please select which grid space you would like to place the x?  "))
-            if  0 < user_input < 9 :
-                user_input = user_input -1
-                break
-            else:
+            clear_screen()
+            draw_board()
+            try:
+                user_input = int(input("Please select which grid space you would like to place the x?  ")) 
+                if 0 < user_input < 10:
+                    user_input = user_input -1
+                    break
+                else:
+                    print("Invalid entry, please enter a number between 1 and 9")
+                    time.sleep(1)
+            except ValueError:
                 print("Invalid entry, please enter a number between 1 and 9")
+                time.sleep(1)
 
     #No double space useage
         if board[user_input]== " ":
