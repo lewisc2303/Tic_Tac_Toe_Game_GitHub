@@ -4,6 +4,7 @@
 import os
 import random 
 import time
+import sys
 
 #Creation steps
 #Create game board
@@ -15,35 +16,66 @@ import time
 #Play again function
 #create game loop function
 #create user_input function
+#Simplify functions
+#Add O.S statement
 
-#Initialise board (first space empty in order to allow for the is_board_full function to work)
-board = ["", " ", " ", " ", " ", " ", " ", " ", " ", " "]
+#Initialise board
+board = [" ", " ", " ", " ", " ", " ", " ", " ", " "]
+
+#Initialise winner function category variables
+row = 1
+column = 3
+left_diag = 4
+right_diag = 2
+
+def clear_screen():
+    if sys.platform == "win32":
+        os.system('cls')
+    else:
+        os.system('clear')
+
+def intro_screen():
+    while True:
+        clear_screen() 
+        print("Welcome to Tic Tac Toe")
+        intro_answer = input("Press any key to continue"  )
+        play_game()
+        break
 
 #Drawing of the board to contain the board list
 def draw_board():
     print("   |   |  ")
-    print(" " + board[1] + " | " + board[2] + " | " + board[3] + " ")
+    print(" " + board[0] + " | " + board[1] + " | " + board[2] + " ")
     print("   |   |  ")
     print("-----------")
     print("   |   |  ")
-    print(" " + board[4] + " | " + board[5] + " | " + board[6] + " ")
+    print(" " + board[3] + " | " + board[4] + " | " + board[5] + " ")
     print("   |   |  ")
     print("-----------")
     print("   |   |  ")
-    print(" " + board[7] + " | " + board[8] + " | " + board[9] + " ")
+    print(" " + board[6] + " | " + board[7] + " | " + board[8] + " ")
     print("   |   |  ")
 
+def win_check(board, start_index, category, player):
+    if board[start_index] == player and board[start_index + category] == player and board[start_index + (category*2)] == player:
+        return True 
+
+def check_rows(player):
+    if win_check(board, 0, row, player) or win_check(board, 3, row, player) or win_check(board, 6, row, player):
+        return True
+
+def check_column(player):
+    if win_check(board, 0, column, player) or win_check(board, 1, column, player) or win_check(board, 2, column, player):
+        return True
+
+def check_diagonal(player):
+    if win_check(board, 0, left_diag, player) or win_check(board, 2, right_diag, player):
+        return True
+
 #Function to determine winner
-def is_winner(board, player):
-    if (board[1]== player and board[2] == player  and board[3] == player ) or \
-     (board[4]== player and board[5] == player  and board[6] == player ) or \
-     (board[7]== player and board[8] == player  and board[9] == player ) or \
-     (board[1]== player and board[4] == player  and board[7] == player ) or \
-     (board[2]== player and board[5] == player  and board[8] == player ) or \
-     (board[3]== player and board[6] == player  and board[9] == player ) or \
-     (board[1]== player and board[5] == player  and board[9] == player ) or \
-     (board[3]== player and board[5] == player  and board[7] == player ):   
-        os.system("cls")
+def is_winner(player):
+    if (check_rows(player) == True) or (check_column(player) == True) or (check_diagonal(player) == True):
+        clear_screen()
         draw_board()
         if player == "x":
             print("Congratulations you are the winner!")
@@ -53,35 +85,36 @@ def is_winner(board, player):
             play_again()
     else:
         return False
-
+        
 #Function to determine Tie
 def is_board_full(board):
     if " " in board:
         return False
     else: 
-        os.system("cls")
+        clear_screen()
         draw_board()
         print("It's a Tie!")
         play_again()
 
 #computer game strategy
 def get_computer_move(board, player):
-    if board[5] == " ":
-        return 5
+    if board[4] == " ":
+       board[4] = player
     else:
         while True:
-           move = random.randint(1, 9)
+           move = random.randint(0, 8)
            if board[move] == " ":
-                return move
+            board[move] = player
+            break    
 
 def get_user_input(board, player):
-        
+
     #Loop to account for skipping player go when space is taken
     while True:
   
     #user input of 'cross' at desired gridspace
         user_input = input("Please select which grid space you would like to place the x?  ")
-        user_input = int(user_input)
+        user_input = int(user_input) - 1
 
     #No double space useage
         if board[user_input]== " ":
@@ -90,49 +123,54 @@ def get_user_input(board, player):
         else: 
             print("This space is already taken, please choose another available space")
             time.sleep(1)
-            os.system('cls')
+            clear_screen()
             draw_board()
 
 #Play again function
 def play_again():
     while True: 
         answer=input("Would you like to play again? yes or no ")
-        os.system('cls') 
+        clear_screen()
         draw_board()
-        if answer == "yes":   
-            board[0:9] = ["", " ", " ", " ", " ", " ", " ", " ", " ", " "] 
+        if answer == "yes":
+            board[0:8] = [" ", " ", " ", " ", " ", " ", " ", " ", " "] 
             play_game()
             break
+        elif answer == "no":
+            board[0:8] = [" ", " ", " ", " ", " ", " ", " ", " ", " "] 
+            intro_screen()
+            break
+        else:
+            print("Invalid entry. Please enter 'yes' or 'no'")
         
 #Game loop
 def play_game():
     while True:
 
         #Refresh the board
-        os.system('cls')
+        clear_screen()
         draw_board()
     
         #User input
         get_user_input(board, "x")
 
         #Check x win 
-        is_winner(board, "x")
+        is_winner("x")
 
         #Tie scenario        
         is_board_full(board)
 
         #Computer input of 'circle' at desired gridspace    
-        computer_input = get_computer_move(board, "o") 
-        board[computer_input]= "o"
+        get_computer_move(board, "o") 
     
         #Check o win
-        is_winner(board,"o")
+        is_winner("o")
 
         #Tie scenario        
         is_board_full(board)
 
 #Play game execution
-play_game()
+intro_screen()
 
      #improvement notes
         #make stuff more flexible
