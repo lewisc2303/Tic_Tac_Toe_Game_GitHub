@@ -56,6 +56,7 @@ def draw_board():
     print(" " + board[6] + " | " + board[7] + " | " + board[8] + " ")
     print("   |   |  ")
 
+#Functions to determine row/column/diagonal win
 def win_check(board, start_index, category, player):
     if board[start_index] == player and board[start_index + category] == player and board[start_index + (category*2)] == player:
         return True 
@@ -109,12 +110,23 @@ def get_computer_move(board, player):
 
 def get_user_input(board, player):
 
-    #Loop to account for skipping player go when space is taken
     while True:
   
-    #user input of 'cross' at desired gridspace
-        user_input = input("Please select which grid space you would like to place the x?  ")
-        user_input = int(user_input) - 1
+        #invalid entry statements
+        while True:
+            clear_screen()
+            draw_board()
+            try:
+                user_input = int(input("Please select which grid space you would like to place the x?  ")) 
+                if 0 < user_input < 10:
+                    user_input = user_input -1
+                    break
+                else:
+                    print("Invalid entry, please enter a number between 1 and 9")
+                    time.sleep(1)
+            except ValueError:
+                print("Invalid entry, please enter a number between 1 and 9")
+                time.sleep(1)
 
     #No double space useage
         if board[user_input]== " ":
