@@ -19,6 +19,11 @@ import time
 #Initialise board
 board = [" ", " ", " ", " ", " ", " ", " ", " ", " "]
 
+row = 1
+column = 3
+left_diag = 4
+right_diag = 2
+
 def intro_screen():
     while True:
         os.system('cls') 
@@ -41,6 +46,36 @@ def draw_board():
     print(" " + board[6] + " | " + board[7] + " | " + board[8] + " ")
     print("   |   |  ")
 
+def win_check(board, start_index, category, player):
+    #for x in range(start_index, len(board))
+    if board[start_index] == player and board[start_index + category] == player and board[start_index + (category*2)] == player:
+        return True 
+
+def check_rows():
+    if win_check(board, 0, row, "x") or win_check(board, 3, row, "x") or win_check(board, 6, row, "x"):
+        return True
+
+def check_column():
+    if win_check(board, 0, column, "x") or win_check(board, 1, column, "x") or win_check(board, 2, column, "x"):
+        return True
+
+def check_diagonal():
+    if win_check(board, 0, left_diag, "x") or win_check(board, 2, right_diag, "x"):
+        return True
+
+def Winner(player):
+    if (check_rows() == True) or (check_column() == True) or (check_diagonal() == True):
+        os.system("cls")
+        draw_board()
+        if player == "x":
+            print("Congratulations you are the winner!")
+            play_again()
+        else:
+            print("The computer won. The machines are taking over...")
+            play_again()
+    else:
+        return False
+        
 #Function to determine winner
 def is_winner(board, player):
     if (board[0]== player and board[1] == player  and board[2] == player ) or \
@@ -131,7 +166,7 @@ def play_game():
         get_user_input(board, "x")
 
         #Check x win 
-        is_winner(board, "x")
+        Winner("x")
 
         #Tie scenario        
         is_board_full(board)
